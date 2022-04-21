@@ -13,7 +13,7 @@ class Wine {
   final String pairings;
   final double temperature;
   final int price;
-  final double qtde;
+  final int qtde;
 
   factory Wine.fromJson(Map<String, dynamic> json) {
     return Wine(
