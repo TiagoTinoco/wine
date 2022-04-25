@@ -6,8 +6,7 @@
             "grapes": "Merlot, Cabernet Sauvignon, Carbenet Franc",
             "pairings": "Game, read meats, strong cheese",
             "temperature": 18,
-            "price" : 59,
-            "qtde": 1
+            "price" : 59
         },
         {
             "id":2,
@@ -15,8 +14,7 @@
             "grapes": "table grapes",
             "pairings": "pasta, chicken, fish and citríc desert",
             "temperature": 10,
-            "price" : 22,
-            "qtde": 1
+            "price" : 22
         }
     ]
 }

@@ -5,7 +5,6 @@ class Wine {
     required this.grapes,
     required this.pairings,
     required this.price,
-    required this.qtde,
   });
 
   final String name;
@@ -13,7 +12,7 @@ class Wine {
   final String pairings;
   final double temperature;
   final int price;
-  final int qtde;
+  final int qtde = 1;
 
   factory Wine.fromJson(Map<String, dynamic> json) {
     return Wine(
@@ -22,7 +21,6 @@ class Wine {
       pairings: json['pairings'],
       temperature: json['temperature'],
       price: json['price'],
-      qtde: json['qtde'],
     );
   }
 }
