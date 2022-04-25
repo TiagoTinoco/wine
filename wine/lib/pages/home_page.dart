@@ -78,7 +78,14 @@ class _HomePageState extends State<HomePage> {
                     onPressed: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (_) => const WinescardPage(),
+                          builder: (_) => WinescardPage(
+                            name: wine.name,
+                            temperature: wine.temperature.toInt(),
+                            grape: wine.grapes,
+                            pairings: wine.pairings,
+                            price: wine.price,
+                            qtde: wine.qtde,
+                          ),
                         ),
                       );
                     },
