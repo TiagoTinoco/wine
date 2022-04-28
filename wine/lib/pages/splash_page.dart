@@ -67,7 +67,7 @@ class SplashPage extends StatelessWidget {
               ),
               const Spacer(),
               Container(
-                margin: const EdgeInsets.only(left: 240),
+                margin: const EdgeInsets.only(left: 330),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(13),
                   border: Border.all(color: Colors.white, width: 1, style: BorderStyle.solid),
