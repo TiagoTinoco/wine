@@ -1,20 +1,21 @@
 {
-    "wine": [
-        {
-            "id":1,
-            "name": "Réserve Mouton Cadet Pauillae 2015 (special apresentation)",
-            "grapes": "Merlot, Cabernet Sauvignon, Carbenet Franc",
-            "pairings": "Game, read meats, strong cheese",
-            "temperature": 18,
-            "price" : 59
-        },
-        {
-            "id":2,
-            "name": "Pérgola Tinto Suave 2000 (premium)",
-            "grapes": "table grapes",
-            "pairings": "pasta, chicken, fish and citríc desert",
-            "temperature": 10,
-            "price" : 22
-        }
-    ]
+  "wine": [
+    {
+      "id": 1,
+      "name": "Réserve Mouton Cadet Pauillae 2015 (special apresentation)",
+      "grapes": "Merlot, Cabernet Sauvignon, Carbenet Franc",
+      "pairings": "Game, read meats, strong cheese",
+      "temperature": 18,
+      "price": 70
+    },
+    {
+      "id": 2,
+      "name": "Pérgola Tinto Suave 2000 (premium)",
+      "grapes": "table grapes",
+      "pairings": "pasta, chicken, fish and citríc desert",
+      "temperature": 10,
+      "price": 22
+    }
+  ],
+  "cart": []
 }
