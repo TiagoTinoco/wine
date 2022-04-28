@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wine/models/wine.dart';
 import 'package:wine/repository/wine.dart';
+import 'package:wine/widgets/button.dart';
 import 'package:wine/widgets/logo.dart';
 
 class FormWinePage extends StatefulWidget {
@@ -96,25 +97,8 @@ class _FormWinePageState extends State<FormWinePage> {
             ),
             const SizedBox(height: 20),
             const Spacer(),
-            TextButton(
-              child: const Text(
-                "Confirmar",
-                style: TextStyle(color: Colors.white),
-              ),
-              style: ButtonStyle(
-                padding: MaterialStateProperty.all<EdgeInsets>(
-                  const EdgeInsets.symmetric(
-                    vertical: 25,
-                    horizontal: 50,
-                  ),
-                ),
-                backgroundColor: MaterialStateProperty.all<Color>(const Color.fromARGB(255, 45, 40, 122)),
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                ),
-              ),
+            ButtonWidget(
+              title: 'Send',
               onPressed: submit,
             ),
           ],

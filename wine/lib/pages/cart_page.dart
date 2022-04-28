@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wine/models/product.dart';
+import 'package:wine/widgets/button.dart';
 import 'package:wine/widgets/logo.dart';
 
 import '../repository/product.dart';
@@ -78,25 +79,8 @@ class _CartPageState extends State<CartPage> {
                       },
                     ),
                   ),
-                  TextButton(
-                    child: const Text(
-                      "Buy",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    style: ButtonStyle(
-                      padding: MaterialStateProperty.all<EdgeInsets>(
-                        const EdgeInsets.symmetric(
-                          vertical: 25,
-                          horizontal: 50,
-                        ),
-                      ),
-                      backgroundColor: MaterialStateProperty.all<Color>(const Color.fromARGB(255, 45, 40, 122)),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15),
-                        ),
-                      ),
-                    ),
+                  ButtonWidget(
+                    title: 'Buy',
                     onPressed: () {
                       list.forEach((product) {
                         productRepository.removeProducts(product.id!);

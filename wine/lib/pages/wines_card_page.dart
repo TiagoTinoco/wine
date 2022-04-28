@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wine/models/product.dart';
 import 'package:wine/pages/cart_page.dart';
 import 'package:wine/repository/product.dart';
+import 'package:wine/widgets/button.dart';
 import 'package:wine/widgets/logo.dart';
 
 class WinescardPage extends StatefulWidget {
@@ -131,7 +132,7 @@ class _WinescardPageState extends State<WinescardPage> {
                     });
                   },
                 ),
-                const SizedBox(width: 20),
+                const SizedBox(width: 10),
                 Container(
                   padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                   decoration: BoxDecoration(
@@ -150,25 +151,8 @@ class _WinescardPageState extends State<WinescardPage> {
               ],
             ),
             const SizedBox(height: 10),
-            TextButton(
-              child: const Text(
-                "Add to cart",
-                style: TextStyle(color: Colors.white),
-              ),
-              style: ButtonStyle(
-                padding: MaterialStateProperty.all<EdgeInsets>(
-                  const EdgeInsets.symmetric(
-                    vertical: 25,
-                    horizontal: 50,
-                  ),
-                ),
-                backgroundColor: MaterialStateProperty.all<Color>(const Color.fromARGB(255, 45, 40, 122)),
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                ),
-              ),
+            ButtonWidget(
+              title: 'Add to cart',
               onPressed: () {
                 productRepository.postProduct(
                   Product(
@@ -239,7 +223,7 @@ class CountButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 8),
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: Colors.blueGrey[50],
@@ -247,23 +231,29 @@ class CountButton extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          IconButton(
-            onPressed: () {
-              if (quantityValue > 1) {
-                onCountChange(quantityValue - 1);
-              }
-            },
-            icon: const Icon(Icons.remove, size: 13),
+          Material(
+            color: Colors.blueGrey[50],
+            child: IconButton(
+              onPressed: () {
+                if (quantityValue > 1) {
+                  onCountChange(quantityValue - 1);
+                }
+              },
+              icon: const Icon(Icons.remove, size: 13),
+            ),
           ),
           Text(
             quantityValue.toString(),
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
-          IconButton(
-            onPressed: () {
-              onCountChange(quantityValue + 1);
-            },
-            icon: const Icon(Icons.add, size: 15),
+          Material(
+            color: Colors.blueGrey[50],
+            child: IconButton(
+              onPressed: () {
+                onCountChange(quantityValue + 1);
+              },
+              icon: const Icon(Icons.add, size: 15),
+            ),
           ),
         ],
       ),
