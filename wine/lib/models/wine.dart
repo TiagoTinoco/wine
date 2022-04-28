@@ -1,5 +1,6 @@
 class Wine {
   Wine({
+    this.id,
     required this.name,
     required this.temperature,
     required this.grapes,
@@ -7,12 +8,12 @@ class Wine {
     required this.price,
   });
 
-  final String name;
-  final String grapes;
-  final String pairings;
-  final double temperature;
-  final int price;
-  final int qtde = 1;
+  int? id;
+  String name;
+  String grapes;
+  String pairings;
+  double temperature;
+  int price;
 
   factory Wine.fromJson(Map<String, dynamic> json) {
     return Wine(
@@ -21,6 +22,17 @@ class Wine {
       pairings: json['pairings'],
       temperature: json['temperature'],
       price: json['price'],
+      id: json['id'],
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'grapes': grapes,
+      'pairings': pairings,
+      'temperature': temperature,
+      'price': price,
+    };
   }
 }
