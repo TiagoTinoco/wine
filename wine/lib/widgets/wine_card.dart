@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 class WineCard extends StatelessWidget {
   const WineCard({
     Key? key,
-    required this.wine,
-    required this.price,
-    required this.onPressed,
+    this.wine,
+    this.price,
+    required this.child,
   }) : super(key: key);
 
-  final String wine;
-  final int price;
-  final VoidCallback onPressed;
+  final String? wine;
+  final int? price;
+  final Widget child;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class WineCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  wine,
+                  wine.toString(),
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
                     fontSize: 15,
@@ -43,18 +43,7 @@ class WineCard extends StatelessWidget {
                 ),
               ],
             ),
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(13),
-                border: Border.all(color: Colors.white, width: 1, style: BorderStyle.solid),
-              ),
-              child: IconButton(
-                icon: const Icon(Icons.arrow_forward_ios_rounded),
-                color: Colors.white,
-                iconSize: 20,
-                onPressed: onPressed,
-              ),
-            ),
+            child,
           ],
         ),
       ),

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:wine/repository/wine.dart';
+import 'package:wine/models/product.dart';
+import 'package:wine/pages/cart_page.dart';
+import 'package:wine/repository/product.dart';
+import 'package:wine/widgets/logo.dart';
 
 class WinescardPage extends StatefulWidget {
   const WinescardPage({
@@ -9,7 +12,7 @@ class WinescardPage extends StatefulWidget {
     required this.pairings,
     required this.price,
     required this.temperature,
-    required this.qtde,
+    required this.id,
   }) : super(key: key);
 
   final String name;
@@ -17,47 +20,38 @@ class WinescardPage extends StatefulWidget {
   final String pairings;
   final int temperature;
   final int price;
-  final int qtde;
+  final int id;
 
   @override
   State<WinescardPage> createState() => _WinescardPageState();
 }
 
 class _WinescardPageState extends State<WinescardPage> {
-  final wine = WineRepository();
+  final productRepository = ProductRepository();
+  int quantityValue = 1;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
+        iconTheme: const IconThemeData(color: Colors.pink),
         elevation: 2,
-        title: RichText(
-          text: TextSpan(
-            text: 'Wi',
-            style: TextStyle(
-              fontSize: 50,
-              color: Colors.pink[200],
-              fontWeight: FontWeight.bold,
-              fontFamily: 'PlayfairDisplay',
-            ),
-            children: const <TextSpan>[
-              TextSpan(
-                text: ' ne.',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 40,
-                  color: Color.fromARGB(255, 45, 40, 122),
-                ),
-              ),
-            ],
-          ),
+        title: const LogoWidget(
+          title: 'Card',
         ),
         actions: [
+          const SizedBox(width: 10),
           IconButton(
             icon: const Icon(Icons.shopping_cart_outlined),
             color: const Color.fromARGB(255, 45, 40, 122),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => const CartPage(),
+                ),
+              );
+            },
           ),
           const SizedBox(width: 20),
           CircleAvatar(backgroundColor: Colors.pink[200]),
@@ -130,7 +124,12 @@ class _WinescardPageState extends State<WinescardPage> {
             Row(
               children: [
                 CountButton(
-                  qtde: widget.qtde,
+                  quantityValue: quantityValue,
+                  onCountChange: (value) {
+                    setState(() {
+                      quantityValue = value;
+                    });
+                  },
                 ),
                 const SizedBox(width: 20),
                 Container(
@@ -142,7 +141,7 @@ class _WinescardPageState extends State<WinescardPage> {
                   child: IconButton(
                     onPressed: () {},
                     icon: const Icon(
-                      Icons.heart_broken,
+                      Icons.favorite,
                       size: 20,
                       color: Colors.grey,
                     ),
@@ -157,17 +156,29 @@ class _WinescardPageState extends State<WinescardPage> {
                 style: TextStyle(color: Colors.white),
               ),
               style: ButtonStyle(
-                  padding: MaterialStateProperty.all<EdgeInsets>(
-                    const EdgeInsets.symmetric(
-                      vertical: 25,
-                      horizontal: 50,
-                    ),
+                padding: MaterialStateProperty.all<EdgeInsets>(
+                  const EdgeInsets.symmetric(
+                    vertical: 25,
+                    horizontal: 50,
                   ),
-                  backgroundColor: MaterialStateProperty.all<Color>(const Color.fromARGB(255, 45, 40, 122)),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(
+                ),
+                backgroundColor: MaterialStateProperty.all<Color>(const Color.fromARGB(255, 45, 40, 122)),
+                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15),
-                  ))),
-              onPressed: () {},
+                  ),
+                ),
+              ),
+              onPressed: () {
+                productRepository.postProduct(
+                  Product(
+                    name: widget.name,
+                    price: widget.price,
+                    quantity: quantityValue,
+                    wineId: widget.id,
+                  ),
+                );
+              },
             ),
           ],
         ),
@@ -215,19 +226,16 @@ class Service extends StatelessWidget {
   }
 }
 
-class CountButton extends StatefulWidget {
-  CountButton({
+class CountButton extends StatelessWidget {
+  const CountButton({
     Key? key,
-    required this.qtde,
+    required this.quantityValue,
+    required this.onCountChange,
   }) : super(key: key);
 
-  int qtde;
+  final int quantityValue;
+  final ValueChanged<int> onCountChange;
 
-  @override
-  State<CountButton> createState() => _CountButtonState();
-}
-
-class _CountButtonState extends State<CountButton> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -241,25 +249,19 @@ class _CountButtonState extends State<CountButton> {
         children: [
           IconButton(
             onPressed: () {
-              if (widget.qtde >= 2) {
-                setState(() {
-                  widget.qtde--;
-                });
+              if (quantityValue > 1) {
+                onCountChange(quantityValue - 1);
               }
             },
             icon: const Icon(Icons.remove, size: 13),
           ),
           Text(
-            widget.qtde.toString(),
+            quantityValue.toString(),
             style: const TextStyle(fontWeight: FontWeight.bold),
           ),
           IconButton(
             onPressed: () {
-              if (widget.qtde <= 9) {
-                setState(() {
-                  widget.qtde++;
-                });
-              }
+              onCountChange(quantityValue + 1);
             },
             icon: const Icon(Icons.add, size: 15),
           ),
