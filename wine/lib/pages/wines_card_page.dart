@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:wine/models/product.dart';
 import 'package:wine/pages/cart_page.dart';
 import 'package:wine/repository/product.dart';
 import 'package:wine/widgets/button.dart';
 import 'package:wine/widgets/logo.dart';
+
+import '../store/card.store.dart';
+import 'package:provider/provider.dart';
 
 class WinescardPage extends StatefulWidget {
   const WinescardPage({
@@ -29,7 +33,8 @@ class WinescardPage extends StatefulWidget {
 
 class _WinescardPageState extends State<WinescardPage> {
   final productRepository = ProductRepository();
-  int quantityValue = 1;
+  final store = CardStore();
+  bool isFavorite = false;
 
   @override
   Widget build(BuildContext context) {
@@ -122,33 +127,37 @@ class _WinescardPageState extends State<WinescardPage> {
               ),
             ),
             const SizedBox(height: 20),
-            Row(
-              children: [
-                CountButton(
-                  quantityValue: quantityValue,
-                  onCountChange: (value) {
-                    setState(() {
-                      quantityValue = value;
-                    });
-                  },
-                ),
-                const SizedBox(width: 10),
-                Container(
-                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: Colors.blueGrey[50],
+            Observer(
+              builder: (context) => Row(
+                children: [
+                  CountButton(
+                    store: store,
                   ),
-                  child: IconButton(
-                    onPressed: () {},
-                    icon: const Icon(
-                      Icons.favorite,
-                      size: 20,
-                      color: Colors.grey,
+                  const SizedBox(width: 10),
+                  Container(
+                    padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.blueGrey[50],
+                    ),
+                    child: Material(
+                      color: Colors.blueGrey[50],
+                      child: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            isFavorite = !isFavorite;
+                          });
+                        },
+                        icon: Icon(
+                          Icons.favorite,
+                          size: 20,
+                          color: isFavorite ? Colors.pink : Colors.grey,
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
             const SizedBox(height: 10),
             ButtonWidget(
@@ -158,7 +167,7 @@ class _WinescardPageState extends State<WinescardPage> {
                   Product(
                     name: widget.name,
                     price: widget.price,
-                    quantity: quantityValue,
+                    quantity: store.quantity,
                     wineId: widget.id,
                   ),
                 );
@@ -213,12 +222,10 @@ class Service extends StatelessWidget {
 class CountButton extends StatelessWidget {
   const CountButton({
     Key? key,
-    required this.quantityValue,
-    required this.onCountChange,
+    required this.store,
   }) : super(key: key);
 
-  final int quantityValue;
-  final ValueChanged<int> onCountChange;
+  final CardStore store;
 
   @override
   Widget build(BuildContext context) {
@@ -235,22 +242,24 @@ class CountButton extends StatelessWidget {
             color: Colors.blueGrey[50],
             child: IconButton(
               onPressed: () {
-                if (quantityValue > 1) {
-                  onCountChange(quantityValue - 1);
+                if (store.quantity > 1) {
+                  store.decrementQuantity();
                 }
               },
               icon: const Icon(Icons.remove, size: 13),
             ),
           ),
-          Text(
-            quantityValue.toString(),
-            style: const TextStyle(fontWeight: FontWeight.bold),
+          Observer(
+            builder: (_) => Text(
+              store.quantity.toString(),
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
           ),
           Material(
             color: Colors.blueGrey[50],
             child: IconButton(
               onPressed: () {
-                onCountChange(quantityValue + 1);
+                store.incrementQuantity();
               },
               icon: const Icon(Icons.add, size: 15),
             ),
