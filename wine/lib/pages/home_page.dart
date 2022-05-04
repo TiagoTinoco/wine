@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wine/models/wine.dart';
 import 'package:wine/pages/cart_page.dart';
+import 'package:wine/pages/favorite_page.dart';
 import 'package:wine/pages/form_page.dart';
 import 'package:wine/pages/wines_card_page.dart';
 import 'package:wine/repository/wine.dart';
@@ -27,6 +28,18 @@ class _HomePageState extends State<HomePage> {
         elevation: 2,
         title: const LogoWidget(),
         actions: [
+          IconButton(
+            color: const Color.fromARGB(255, 45, 40, 122),
+            icon: const Icon(Icons.favorite_sharp),
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => const FavoritePage(),
+                ),
+              );
+            },
+          ),
+          const SizedBox(width: 10),
           IconButton(
             icon: const Icon(Icons.add),
             color: const Color.fromARGB(255, 45, 40, 122),

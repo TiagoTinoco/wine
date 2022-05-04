@@ -17,5 +17,21 @@
       "price": 22
     }
   ],
-  "cart": []
+  "cart": [
+    {
+      "name": "Réserve Mouton Cadet Pauillae 2015 (special apresentation)",
+      "price": 70,
+      "wineId": 1,
+      "quantity": 1,
+      "id": 1
+    }
+  ],
+  "favorite": [
+    {
+      "name": "Réserve Mouton Cadet Pauillae 2015 (special apresentation)",
+      "price": 70,
+      "favoriteId": 1,
+      "id": 1
+    }
+  ]
 }

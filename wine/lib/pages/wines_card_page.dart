@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:wine/models/favorite.dart';
 import 'package:wine/models/product.dart';
 import 'package:wine/pages/cart_page.dart';
+import 'package:wine/repository/favorite.dart';
 import 'package:wine/repository/product.dart';
 import 'package:wine/widgets/button.dart';
 import 'package:wine/widgets/logo.dart';
 
 import '../store/card.store.dart';
-import 'package:provider/provider.dart';
 
 class WinescardPage extends StatefulWidget {
   const WinescardPage({
@@ -33,8 +34,21 @@ class WinescardPage extends StatefulWidget {
 
 class _WinescardPageState extends State<WinescardPage> {
   final productRepository = ProductRepository();
+  final favoriteRepository = FavoriteRepository();
   final store = CardStore();
   bool isFavorite = false;
+
+  @override
+  void initState() {
+    super.initState();
+    favoriteRepository.getFavorite(widget.id).then((value) {
+      if (value == true) {
+        isFavorite = true;
+      } else {
+        isFavorite = false;
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -146,6 +160,17 @@ class _WinescardPageState extends State<WinescardPage> {
                         onPressed: () {
                           setState(() {
                             isFavorite = !isFavorite;
+                            if (isFavorite == true) {
+                              favoriteRepository.postFavorite(
+                                Favorite(
+                                  favoriteId: widget.id,
+                                  name: widget.name,
+                                  price: widget.price,
+                                ),
+                              );
+                            } else {
+                              favoriteRepository.removeFavorites(widget.id);
+                            }
                           });
                         },
                         icon: Icon(
