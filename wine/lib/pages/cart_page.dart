@@ -82,7 +82,9 @@ class _CartPageState extends State<CartPage> {
                   ButtonWidget(
                     title: 'Buy',
                     onPressed: () {
-                      list.forEach((product) => productRepository.removeProducts(product.id!));
+                      for (var product in list) {
+                        productRepository.removeProducts(product.id!);
+                      }
                       setState(() {
                         productFuture = productRepository.getProducts();
                       });
