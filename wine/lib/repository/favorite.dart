@@ -13,7 +13,7 @@ class FavoriteRepository {
 
   Future<bool> getFavorite(int id) async {
     try {
-      final response = await dio.get('favorite/$id');
+      await dio.get('favorite/$id');
       return true;
     } catch (e) {
       return false;
